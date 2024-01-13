@@ -55,6 +55,11 @@ app.get('/product', (req, res) => {
 });
 
 // Error handler for invalid token
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).json({ message: 'Invalid token' });
+  }
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {
