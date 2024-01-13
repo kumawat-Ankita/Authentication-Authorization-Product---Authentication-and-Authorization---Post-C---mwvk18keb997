@@ -24,7 +24,7 @@ const authenticateToken = (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'Missing token' });
 
   jwt.verify(token, secretKey, (err, user) => {
-    if (err) return res.status(200).json({ message: 'Invalid token' });
+    if (err) return res.status(401).json({ message: 'Invalid token' });
     req.user = user;
     next();
   });
@@ -47,13 +47,18 @@ app.post('/login', (req, res) => {
 
 // Product route (Students should implement this)
 app.get('/product', (req, res) => {
-  const user = req.user;
+    const user = req.user;
 
   // Implement actual product retrieval logic here
   // For now, sending mocked product data
   res.status(200).json({ message: 'Product data', products: products });
 });
 
+// Error handler for invalid token
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).json({ message: 'Invalid token' });
+  }
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
