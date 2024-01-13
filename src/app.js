@@ -24,7 +24,7 @@ const authenticateToken = (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'Missing token' });
 
   jwt.verify(token, secretKey, (err, user) => {
-    if (err) return res.status(401).json({ message: 'Invalid token' });
+    if (err) return res.status(200).json({ message: 'Invalid token' });
     req.user = user;
     next();
   });
