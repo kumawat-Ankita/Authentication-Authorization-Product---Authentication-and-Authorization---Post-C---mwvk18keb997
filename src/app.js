@@ -51,7 +51,7 @@ app.get('/product', (req, res) => {
 
   // Implement actual product retrieval logic here
   // For now, sending mocked product data
-  res.status(200).json({ message: 'Product data', products: products });
+  res.status(401).json({ message: 'Product data', products: products });
 });
 
 // Error handler for invalid token
